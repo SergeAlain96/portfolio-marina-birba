@@ -59,6 +59,15 @@ create table project_images (
   created_at timestamp default now()
 );
 
+create table messages (
+  id uuid primary key default gen_random_uuid(),
+  name text,
+  email text,
+  subject text,
+  message text,
+  created_at timestamp default now()
+);
+
 -- Lecture publique, écriture réservée aux utilisateurs authentifiés (admin)
 alter table profiles enable row level security;
 alter table experiences enable row level security;
@@ -66,6 +75,7 @@ alter table education enable row level security;
 alter table skills enable row level security;
 alter table projects enable row level security;
 alter table project_images enable row level security;
+alter table messages enable row level security;
 
 create policy "public read profiles" on profiles for select using (true);
 create policy "public read experiences" on experiences for select using (true);
@@ -80,3 +90,8 @@ create policy "auth write education" on education for all using (auth.role() = '
 create policy "auth write skills" on skills for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 create policy "auth write projects" on projects for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 create policy "auth write project_images" on project_images for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+
+-- messages : n'importe qui peut envoyer, seule l'admin authentifiee peut lire/gerer
+create policy "public insert messages" on messages for insert with check (true);
+create policy "auth read messages" on messages for select using (auth.role() = 'authenticated');
+create policy "auth delete messages" on messages for delete using (auth.role() = 'authenticated');
