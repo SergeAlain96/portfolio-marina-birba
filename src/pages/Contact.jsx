@@ -1,9 +1,14 @@
 import { useState } from 'react'
-import { FiMail, FiPhone, FiLinkedin } from 'react-icons/fi'
+import { FiMail, FiLinkedin } from 'react-icons/fi'
+import { TbBrandWhatsapp } from 'react-icons/tb'
 import { supabase } from '../services/supabase'
 import { useProfile } from '../hooks/useProfile'
 
 const emptyForm = { name: '', email: '', subject: '', message: '' }
+
+function toWhatsappLink(number) {
+  return `https://wa.me/${number.replace(/[^0-9]/g, '')}`
+}
 
 export default function Contact() {
   const { profile } = useProfile()
@@ -72,15 +77,22 @@ export default function Contact() {
 
       {profile && (
         <div className="flex flex-col gap-3 mt-10 text-sm">
-          {profile.phone && (
-            <span className="flex items-center gap-2">
-              <FiPhone className="text-primary" /> {profile.phone}
-            </span>
-          )}
+          {profile.phone &&
+            profile.phone.split('/').map((number) => (
+              <a
+                key={number}
+                href={toWhatsappLink(number)}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2 hover:text-primary"
+              >
+                <TbBrandWhatsapp className="text-primary" /> {number.trim()}
+              </a>
+            ))}
           {profile.email && (
-            <span className="flex items-center gap-2">
+            <a href={`mailto:${profile.email}`} className="flex items-center gap-2 hover:text-primary">
               <FiMail className="text-primary" /> {profile.email}
-            </span>
+            </a>
           )}
           {profile.linkedin && (
             <a
