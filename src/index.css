@@ -16,3 +16,15 @@ body {
   color: var(--color-text);
   font-family: var(--font-sans);
 }
+
+.map-grid {
+  background-image:
+    linear-gradient(to right, rgba(30, 41, 59, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(30, 41, 59, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.coord-label {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}

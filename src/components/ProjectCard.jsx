@@ -6,7 +6,7 @@ export default function ProjectCard({ project }) {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col"
+      className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col border-t-2 border-primary/30"
     >
       {project.cover_image && (
         <img src={project.cover_image} alt={project.title} className="w-full h-48 object-cover" />
@@ -14,7 +14,7 @@ export default function ProjectCard({ project }) {
       <div className="p-6 flex flex-col flex-1">
         <h3 className="text-lg font-semibold text-secondary">{project.title}</h3>
         {project.project_date && (
-          <span className="text-sm text-primary font-medium mt-1">
+          <span className="coord-label text-sm text-primary font-medium mt-1">
             {new Date(project.project_date).toLocaleDateString('fr-FR', {
               month: 'short',
               year: 'numeric',
