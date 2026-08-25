@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../services/supabase'
 import { uploadFile } from '../../services/uploadFile'
+import FileDropzone from './FileDropzone'
 
 const emptyForm = { title: '', description: '', cover_image: '', project_date: '' }
 
@@ -9,7 +10,8 @@ export default function ProjectsManager() {
   const [form, setForm] = useState(emptyForm)
   const [editingId, setEditingId] = useState(null)
   const [uploadingCover, setUploadingCover] = useState(false)
-  const [uploadingGallery, setUploadingGallery] = useState(false)
+  const [uploadingGalleryFor, setUploadingGalleryFor] = useState(null)
+  const [uploadError, setUploadError] = useState('')
 
   async function refresh() {
     const { data } = await supabase
@@ -26,8 +28,13 @@ export default function ProjectsManager() {
   async function handleCoverUpload(file) {
     if (!file) return
     setUploadingCover(true)
-    const url = await uploadFile(file, 'projects')
-    setForm((f) => ({ ...f, cover_image: url }))
+    setUploadError('')
+    try {
+      const url = await uploadFile(file, 'projects')
+      setForm((f) => ({ ...f, cover_image: url }))
+    } catch (err) {
+      setUploadError(err.message)
+    }
     setUploadingCover(false)
   }
 
@@ -59,12 +66,17 @@ export default function ProjectsManager() {
   }
 
   async function handleGalleryUpload(projectId, files) {
-    setUploadingGallery(true)
-    for (const file of files) {
-      const url = await uploadFile(file, 'projects')
-      await supabase.from('project_images').insert({ project_id: projectId, image_url: url })
+    setUploadingGalleryFor(projectId)
+    setUploadError('')
+    try {
+      for (const file of files) {
+        const url = await uploadFile(file, 'projects')
+        await supabase.from('project_images').insert({ project_id: projectId, image_url: url })
+      }
+    } catch (err) {
+      setUploadError(err.message)
     }
-    setUploadingGallery(false)
+    setUploadingGalleryFor(null)
     refresh()
   }
 
@@ -96,19 +108,22 @@ export default function ProjectsManager() {
           onChange={(e) => setForm({ ...form, project_date: e.target.value })}
           className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
         />
-        <label className="text-sm font-medium text-secondary">
-          Image de couverture
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => handleCoverUpload(e.target.files[0])}
-            className="block mt-1"
-          />
-          {uploadingCover && <span className="text-sm text-primary">Envoi...</span>}
+        <FileDropzone
+          label="Image de couverture"
+          accept="image/*"
+          hint="JPG ou PNG"
+          uploading={uploadingCover}
+          onFiles={handleCoverUpload}
+        >
           {form.cover_image && (
-            <img src={form.cover_image} alt="Couverture" className="w-32 h-20 object-cover rounded-lg mt-2" />
+            <img src={form.cover_image} alt="Couverture" className="w-32 h-20 object-cover rounded-lg" />
           )}
-        </label>
+        </FileDropzone>
+
+        {uploadError && (
+          <p className="text-red-600 text-sm font-medium">Upload échoué : {uploadError}</p>
+        )}
+
         <div className="flex gap-3">
           <button
             type="submit"
@@ -149,31 +164,30 @@ export default function ProjectsManager() {
               </div>
             </div>
 
-            <div className="mt-3">
-              <label className="text-sm font-medium text-secondary">
-                Ajouter des images
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={(e) => handleGalleryUpload(project.id, Array.from(e.target.files))}
-                  className="block mt-1"
-                />
-              </label>
-              {uploadingGallery && <span className="text-sm text-primary">Envoi...</span>}
-              <div className="flex flex-wrap gap-2 mt-2">
-                {project.project_images?.map((image) => (
-                  <div key={image.id} className="relative">
-                    <img src={image.image_url} alt="" className="w-20 h-20 object-cover rounded-lg" />
-                    <button
-                      onClick={() => handleGalleryDelete(image.id)}
-                      className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-5 h-5 text-xs"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
+            <div className="mt-4">
+              <FileDropzone
+                label="Galerie du projet"
+                accept="image/*"
+                multiple
+                hint="Plusieurs images possibles"
+                uploading={uploadingGalleryFor === project.id}
+                onFiles={(files) => handleGalleryUpload(project.id, files)}
+              >
+                <div className="flex flex-wrap gap-2">
+                  {project.project_images?.map((image) => (
+                    <div key={image.id} className="relative">
+                      <img src={image.image_url} alt="" className="w-20 h-20 object-cover rounded-lg" />
+                      <button
+                        type="button"
+                        onClick={() => handleGalleryDelete(image.id)}
+                        className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-5 h-5 text-xs"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </FileDropzone>
             </div>
           </div>
         ))}

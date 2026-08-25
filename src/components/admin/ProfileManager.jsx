@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../services/supabase'
 import { uploadFile } from '../../services/uploadFile'
+import FileDropzone from './FileDropzone'
 
 const emptyProfile = {
   fullname: '',
@@ -85,35 +86,40 @@ export default function ProfileManager() {
         className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
       />
 
-      <label className="text-sm font-medium text-secondary">
-        Photo
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => handleUpload('photo_url', e.target.files[0])}
-          className="block mt-1"
-        />
-        {uploading === 'photo_url' && <span className="text-sm text-primary">Envoi...</span>}
+      <FileDropzone
+        label="Photo de profil"
+        accept="image/*"
+        hint="JPG ou PNG"
+        uploading={uploading === 'photo_url'}
+        onFiles={(file) => handleUpload('photo_url', file)}
+      >
         {profile.photo_url && (
-          <img src={profile.photo_url} alt="Photo" className="w-24 h-24 rounded-full object-cover mt-2" />
+          <img
+            src={profile.photo_url}
+            alt="Profil"
+            className="w-24 h-24 rounded-full object-cover ring-2 ring-primary/20"
+          />
         )}
-      </label>
+      </FileDropzone>
 
-      <label className="text-sm font-medium text-secondary">
-        CV (PDF)
-        <input
-          type="file"
-          accept="application/pdf"
-          onChange={(e) => handleUpload('cv_url', e.target.files[0])}
-          className="block mt-1"
-        />
-        {uploading === 'cv_url' && <span className="text-sm text-primary">Envoi...</span>}
+      <FileDropzone
+        label="CV"
+        accept="application/pdf"
+        hint="Fichier PDF"
+        uploading={uploading === 'cv_url'}
+        onFiles={(file) => handleUpload('cv_url', file)}
+      >
         {profile.cv_url && (
-          <a href={profile.cv_url} target="_blank" rel="noreferrer" className="text-primary text-sm underline">
+          <a
+            href={profile.cv_url}
+            target="_blank"
+            rel="noreferrer"
+            className="text-primary text-sm font-medium underline"
+          >
             Voir le CV actuel
           </a>
         )}
-      </label>
+      </FileDropzone>
 
       <input
         placeholder="Email"
