@@ -1,4 +1,5 @@
-import { TbMapPinFilled } from 'react-icons/tb'
+import { useState } from 'react'
+import { TbMapPinFilled, TbMenu2, TbX } from 'react-icons/tb'
 
 const links = [
   { to: '#home', label: 'Accueil' },
@@ -9,23 +10,57 @@ const links = [
 ]
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false)
+
   return (
-    <nav className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-white/70 backdrop-blur-md border-b border-secondary/5">
-      <a href="#home" className="flex items-center gap-2 font-bold text-secondary">
-        <TbMapPinFilled className="text-accent" size={20} />
-        Marina Birba
-      </a>
-      <div className="flex gap-6">
-        {links.map((link) => (
-          <a
-            key={link.to}
-            href={link.to}
-            className="relative py-1 text-sm font-medium text-secondary hover:text-primary transition-colors"
-          >
-            {link.label}
-          </a>
-        ))}
+    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-secondary/5">
+      <div className="flex items-center justify-between px-6 py-4">
+        <a
+          href="#home"
+          onClick={() => setOpen(false)}
+          className="flex items-center gap-2 font-bold text-secondary whitespace-nowrap"
+        >
+          <TbMapPinFilled className="text-accent shrink-0" size={20} />
+          Marina Birba
+        </a>
+
+        <div className="hidden md:flex gap-6">
+          {links.map((link) => (
+            <a
+              key={link.to}
+              href={link.to}
+              className="py-1 text-sm font-medium text-secondary hover:text-primary transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
+          aria-expanded={open}
+          className="md:hidden text-secondary"
+        >
+          {open ? <TbX size={24} /> : <TbMenu2 size={24} />}
+        </button>
       </div>
+
+      {open && (
+        <div className="md:hidden flex flex-col border-t border-secondary/5 px-6 py-2">
+          {links.map((link) => (
+            <a
+              key={link.to}
+              href={link.to}
+              onClick={() => setOpen(false)}
+              className="py-3 text-sm font-medium text-secondary hover:text-primary transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      )}
     </nav>
   )
 }
