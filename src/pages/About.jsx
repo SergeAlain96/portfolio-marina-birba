@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { useProfile } from '../hooks/useProfile'
 import { useSkills } from '../hooks/useSkills'
 import SkillCard from '../components/SkillCard'
@@ -9,9 +10,26 @@ export default function About() {
   if (loading) return null
 
   return (
-    <section className="max-w-3xl mx-auto px-6 py-16">
-      <h1 className="text-3xl font-bold text-secondary mb-6">À propos</h1>
-      {profile?.bio && <p className="whitespace-pre-line">{profile.bio}</p>}
+    <section id="about" className="bg-white scroll-mt-20">
+    <div className="max-w-3xl mx-auto px-6 py-16">
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        className="text-3xl font-bold text-secondary mb-6"
+      >
+        À propos
+      </motion.h1>
+      {profile?.bio && (
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="whitespace-pre-line"
+        >
+          {profile.bio}
+        </motion.p>
+      )}
 
       {Object.keys(skillsByCategory).length > 0 && (
         <div className="mt-12">
@@ -23,6 +41,7 @@ export default function About() {
           </div>
         </div>
       )}
+    </div>
     </section>
   )
 }

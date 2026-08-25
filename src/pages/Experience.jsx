@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { TbRoute } from 'react-icons/tb'
 import { useExperiences } from '../hooks/useExperiences'
 import { useEducation } from '../hooks/useEducation'
@@ -8,7 +9,7 @@ export default function Experience() {
   const { education, loading: loadingEdu } = useEducation()
 
   return (
-    <section className="max-w-3xl mx-auto px-6 py-16">
+    <section id="experience" className="max-w-3xl mx-auto px-6 py-16 scroll-mt-20">
       <h1 className="flex items-center gap-2 text-3xl font-bold text-secondary mb-10">
         <TbRoute className="text-primary" />
         Expériences Professionnelles
@@ -31,7 +32,13 @@ export default function Experience() {
       <div className="flex flex-col gap-4">
         {!loadingEdu &&
           education.map((item) => (
-            <div key={item.id} className="bg-white rounded-2xl shadow-sm p-6 border-l-4 border-accent">
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              className="bg-white rounded-2xl shadow-sm p-6 border-l-4 border-accent"
+            >
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <h3 className="text-lg font-semibold text-secondary">{item.degree}</h3>
                 <span className="coord-label text-sm text-primary font-medium">{item.year}</span>
@@ -40,7 +47,7 @@ export default function Experience() {
                 {item.institution}
                 {item.country ? ` · ${item.country}` : ''}
               </p>
-            </div>
+            </motion.div>
           ))}
       </div>
     </section>

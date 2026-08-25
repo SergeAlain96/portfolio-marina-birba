@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useProfile } from '../hooks/useProfile'
 import TopoLines from '../components/TopoLines'
@@ -9,7 +8,7 @@ export default function Home() {
   if (loading) return null
 
   return (
-    <section className="map-grid relative overflow-hidden px-6 py-20 md:py-28">
+    <section id="home" className="map-grid relative overflow-hidden px-6 py-20 md:py-28 scroll-mt-20">
       <div className="max-w-5xl mx-auto grid md:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -25,7 +24,6 @@ export default function Home() {
           <p className="text-lg mt-3 text-primary font-medium">
             {profile?.title || 'Ingénieure Géomaticienne'}
           </p>
-          {profile?.bio && <p className="mt-5 max-w-lg">{profile.bio}</p>}
 
           <div className="flex flex-wrap gap-4 mt-8">
             {profile?.cv_url && (
@@ -38,12 +36,12 @@ export default function Home() {
                 Télécharger CV
               </a>
             )}
-            <Link
-              to="/contact"
+            <a
+              href="#contact"
               className="px-6 py-3 rounded-xl border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-white transition-colors"
             >
               Contact
-            </Link>
+            </a>
           </div>
         </motion.div>
 

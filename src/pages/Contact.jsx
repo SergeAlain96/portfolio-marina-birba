@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { FiMail, FiLinkedin } from 'react-icons/fi'
 import { TbBrandWhatsapp } from 'react-icons/tb'
 import { supabase } from '../services/supabase'
@@ -28,10 +29,16 @@ export default function Contact() {
   }
 
   return (
-    <section className="max-w-2xl mx-auto px-6 py-16">
+    <section id="contact" className="max-w-2xl mx-auto px-6 py-16 scroll-mt-20">
       <h1 className="text-3xl font-bold text-secondary mb-6">Contact</h1>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <motion.form
+        onSubmit={handleSubmit}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        className="flex flex-col gap-4"
+      >
         <input
           required
           placeholder="Nom"
@@ -73,10 +80,15 @@ export default function Contact() {
         {status === 'error' && (
           <p className="text-red-600 font-medium">Erreur lors de l'envoi, réessayez.</p>
         )}
-      </form>
+      </motion.form>
 
       {profile && (
-        <div className="flex flex-col gap-3 mt-10 text-sm">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="flex flex-col gap-3 mt-10 text-sm"
+        >
           {profile.phone &&
             profile.phone.split('/').map((number) => (
               <a
@@ -104,7 +116,7 @@ export default function Contact() {
               <FiLinkedin className="text-primary" /> LinkedIn
             </a>
           )}
-        </div>
+        </motion.div>
       )}
     </section>
   )
