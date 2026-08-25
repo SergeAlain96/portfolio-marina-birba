@@ -11,17 +11,17 @@ export default function Experience() {
   return (
     <section id="experience" className="max-w-3xl mx-auto px-6 py-16 scroll-mt-20">
       <h1 className="flex items-center gap-2 text-3xl font-bold text-secondary mb-10">
-        <TbRoute className="text-primary" />
+        <TbRoute className="text-accent" />
         Expériences Professionnelles
       </h1>
 
       <div className="relative">
-        <div className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-primary/20" />
+        <div className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-accent/30" />
         <div className="flex flex-col gap-8">
           {!loadingExp &&
             experiences.map((experience) => (
               <div key={experience.id} className="relative pl-8">
-                <span className="absolute left-0 top-2 w-4 h-4 rounded-full bg-primary ring-4 ring-background" />
+                <span className="absolute left-0 top-2 w-4 h-4 rounded-full bg-accent ring-4 ring-background" />
                 <ExperienceCard experience={experience} />
               </div>
             ))}

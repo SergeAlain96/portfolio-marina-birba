@@ -98,12 +98,12 @@ export default function Contact() {
                 rel="noreferrer"
                 className="flex items-center gap-2 hover:text-primary"
               >
-                <TbBrandWhatsapp className="text-primary" /> {number.trim()}
+                <TbBrandWhatsapp className="text-accent" /> {number.trim()}
               </a>
             ))}
           {profile.email && (
             <a href={`mailto:${profile.email}`} className="flex items-center gap-2 hover:text-primary">
-              <FiMail className="text-primary" /> {profile.email}
+              <FiMail className="text-accent" /> {profile.email}
             </a>
           )}
           {profile.linkedin && (
@@ -113,7 +113,7 @@ export default function Contact() {
               rel="noreferrer"
               className="flex items-center gap-2 hover:text-primary"
             >
-              <FiLinkedin className="text-primary" /> LinkedIn
+              <FiLinkedin className="text-accent" /> LinkedIn
             </a>
           )}
         </motion.div>

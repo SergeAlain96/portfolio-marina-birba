@@ -15,7 +15,7 @@ export default function Home() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <span className="coord-label inline-block text-xs font-semibold text-primary uppercase mb-4">
+          <span className="coord-label inline-block text-xs font-semibold text-accent uppercase mb-4">
             SIG · Cartographie · Télédétection
           </span>
           <h1 className="text-4xl md:text-5xl font-bold text-secondary leading-tight">
@@ -38,7 +38,7 @@ export default function Home() {
             )}
             <a
               href="#contact"
-              className="px-6 py-3 rounded-xl border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-white transition-colors"
+              className="px-6 py-3 rounded-xl border-2 border-accent text-accent font-semibold hover:bg-accent hover:text-white transition-colors"
             >
               Contact
             </a>
@@ -51,7 +51,7 @@ export default function Home() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="relative flex justify-center"
         >
-          <TopoLines className="absolute inset-0 w-full h-full text-primary/15 -z-10" />
+          <TopoLines className="absolute inset-0 w-full h-full text-accent/25 -z-10" />
           {profile?.photo_url ? (
             <img
               src={profile.photo_url}
@@ -61,7 +61,7 @@ export default function Home() {
           ) : (
             <div className="w-56 h-56 md:w-72 md:h-72 rounded-full bg-white/60 ring-4 ring-white shadow-xl" />
           )}
-          <span className="coord-label absolute -bottom-2 bg-secondary text-white text-xs px-3 py-1 rounded-full">
+          <span className="coord-label absolute -bottom-2 bg-accent text-white text-xs px-3 py-1 rounded-full">
             12.3714° N, 1.5197° W — Ouagadougou
           </span>
         </motion.div>

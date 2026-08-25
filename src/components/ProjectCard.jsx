@@ -6,7 +6,7 @@ export default function ProjectCard({ project }) {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col border-t-2 border-primary/30"
+      className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col border-t-2 border-accent"
     >
       {project.cover_image && (
         <img src={project.cover_image} alt={project.title} className="w-full h-48 object-cover" />
@@ -24,7 +24,7 @@ export default function ProjectCard({ project }) {
         {project.description && <p className="mt-3 text-sm flex-1">{project.description}</p>}
         <button
           type="button"
-          className="mt-4 self-start px-4 py-2 rounded-xl border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-white transition-colors"
+          className="mt-4 self-start px-4 py-2 rounded-xl border-2 border-accent text-accent font-semibold hover:bg-accent hover:text-white transition-colors"
         >
           Voir le projet
         </button>
