@@ -81,20 +81,20 @@ export default function ProjectsManager() {
           placeholder="Titre"
           value={form.title}
           onChange={(e) => setForm({ ...form, title: e.target.value })}
-          className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+          className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
         />
         <textarea
           rows={4}
           placeholder="Description"
           value={form.description}
           onChange={(e) => setForm({ ...form, description: e.target.value })}
-          className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+          className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
         />
         <input
           type="date"
           value={form.project_date}
           onChange={(e) => setForm({ ...form, project_date: e.target.value })}
-          className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+          className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
         />
         <label className="text-sm font-medium text-secondary">
           Image de couverture
@@ -133,7 +133,7 @@ export default function ProjectsManager() {
 
       <div className="flex flex-col gap-4">
         {projects.map((project) => (
-          <div key={project.id} className="bg-white rounded-2xl shadow-sm p-4">
+          <div key={project.id} className="bg-background rounded-2xl border border-secondary/10 p-4">
             <div className="flex justify-between items-start gap-4">
               <div>
                 <p className="font-semibold text-secondary">{project.title}</p>

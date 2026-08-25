@@ -47,14 +47,14 @@ export default function SkillsManager() {
           placeholder="Nom de la compétence"
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
-          className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+          className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
         />
         <input
           required
           placeholder="Catégorie (ex: SIG, Télédétection...)"
           value={form.category}
           onChange={(e) => setForm({ ...form, category: e.target.value })}
-          className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+          className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
         />
         <div className="flex gap-3">
           <button

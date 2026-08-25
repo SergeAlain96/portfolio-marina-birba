@@ -52,26 +52,26 @@ export default function EducationManager() {
           placeholder="Diplôme"
           value={form.degree}
           onChange={(e) => setForm({ ...form, degree: e.target.value })}
-          className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+          className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
         />
         <input
           required
           placeholder="Établissement"
           value={form.institution}
           onChange={(e) => setForm({ ...form, institution: e.target.value })}
-          className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+          className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
         />
         <input
           placeholder="Pays"
           value={form.country}
           onChange={(e) => setForm({ ...form, country: e.target.value })}
-          className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+          className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
         />
         <input
           placeholder="Année"
           value={form.year}
           onChange={(e) => setForm({ ...form, year: e.target.value })}
-          className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+          className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
         />
         <div className="flex gap-3">
           <button
@@ -97,7 +97,7 @@ export default function EducationManager() {
 
       <div className="flex flex-col gap-3">
         {education.map((item) => (
-          <div key={item.id} className="bg-white rounded-2xl shadow-sm p-4 flex justify-between items-start gap-4">
+          <div key={item.id} className="bg-background rounded-2xl border border-secondary/10 p-4 flex justify-between items-start gap-4">
             <div>
               <p className="font-semibold text-secondary">{item.degree}</p>
               <p className="text-sm">{item.institution}</p>

@@ -19,6 +19,7 @@ export default function ProfileManager() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState('')
+  const [uploadError, setUploadError] = useState('')
 
   useEffect(() => {
     supabase
@@ -38,8 +39,13 @@ export default function ProfileManager() {
   async function handleUpload(field, file) {
     if (!file) return
     setUploading(field)
-    const url = await uploadFile(file, field === 'photo_url' ? 'profile' : 'cv')
-    setProfile((p) => ({ ...p, [field]: url }))
+    setUploadError('')
+    try {
+      const url = await uploadFile(file, field === 'photo_url' ? 'profile' : 'cv')
+      setProfile((p) => ({ ...p, [field]: url }))
+    } catch (err) {
+      setUploadError(err.message)
+    }
     setUploading('')
   }
 
@@ -63,20 +69,20 @@ export default function ProfileManager() {
         placeholder="Nom complet"
         value={profile.fullname || ''}
         onChange={(e) => setProfile({ ...profile, fullname: e.target.value })}
-        className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+        className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
       />
       <input
         placeholder="Titre professionnel"
         value={profile.title || ''}
         onChange={(e) => setProfile({ ...profile, title: e.target.value })}
-        className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+        className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
       />
       <textarea
         rows={5}
         placeholder="Biographie"
         value={profile.bio || ''}
         onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
-        className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+        className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
       />
 
       <label className="text-sm font-medium text-secondary">
@@ -113,20 +119,22 @@ export default function ProfileManager() {
         placeholder="Email"
         value={profile.email || ''}
         onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-        className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+        className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
       />
       <input
         placeholder="Téléphone"
         value={profile.phone || ''}
         onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
-        className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+        className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
       />
       <input
         placeholder="LinkedIn"
         value={profile.linkedin || ''}
         onChange={(e) => setProfile({ ...profile, linkedin: e.target.value })}
-        className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+        className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
       />
+
+      {uploadError && <p className="text-red-600 text-sm font-medium">Upload échoué : {uploadError}</p>}
 
       <button
         type="submit"

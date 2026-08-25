@@ -64,33 +64,33 @@ export default function ExperiencesManager() {
           placeholder="Poste"
           value={form.title}
           onChange={(e) => setForm({ ...form, title: e.target.value })}
-          className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+          className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
         />
         <input
           required
           placeholder="Structure"
           value={form.company}
           onChange={(e) => setForm({ ...form, company: e.target.value })}
-          className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+          className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
         />
         <input
           placeholder="Localisation"
           value={form.location}
           onChange={(e) => setForm({ ...form, location: e.target.value })}
-          className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+          className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
         />
         <div className="flex gap-4">
           <input
             type="date"
             value={form.start_date}
             onChange={(e) => setForm({ ...form, start_date: e.target.value })}
-            className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary flex-1"
+            className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary flex-1"
           />
           <input
             type="date"
             value={form.end_date}
             onChange={(e) => setForm({ ...form, end_date: e.target.value })}
-            className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary flex-1"
+            className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary flex-1"
           />
         </div>
         <textarea
@@ -98,7 +98,7 @@ export default function ExperiencesManager() {
           placeholder="Missions réalisées"
           value={form.description}
           onChange={(e) => setForm({ ...form, description: e.target.value })}
-          className="px-4 py-3 rounded-xl bg-white shadow-sm outline-none focus:ring-2 focus:ring-primary"
+          className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
         />
         <div className="flex gap-3">
           <button
@@ -124,7 +124,7 @@ export default function ExperiencesManager() {
 
       <div className="flex flex-col gap-3">
         {experiences.map((experience) => (
-          <div key={experience.id} className="bg-white rounded-2xl shadow-sm p-4 flex justify-between items-start gap-4">
+          <div key={experience.id} className="bg-background rounded-2xl border border-secondary/10 p-4 flex justify-between items-start gap-4">
             <div>
               <p className="font-semibold text-secondary">{experience.title}</p>
               <p className="text-sm">{experience.company}</p>
