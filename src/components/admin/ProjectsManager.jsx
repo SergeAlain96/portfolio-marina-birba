@@ -278,7 +278,7 @@ export default function ProjectsManager() {
                 {project.document_url ? (
                   <div>
                     <p className="text-sm font-medium text-secondary mb-2">Document</p>
-                    <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-secondary/10">
+                    <div className="flex items-center gap-2 min-w-0 px-3 py-2 rounded-lg bg-white border border-secondary/10">
                       <TbFileText size={18} className="text-accent shrink-0" />
                       <a
                         href={project.document_url}

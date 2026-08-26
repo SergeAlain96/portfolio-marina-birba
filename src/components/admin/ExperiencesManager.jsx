@@ -79,7 +79,7 @@ export default function ExperiencesManager() {
           onChange={(e) => setForm({ ...form, location: e.target.value })}
           className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
         />
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <input
             type="date"
             value={form.start_date}

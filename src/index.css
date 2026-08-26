@@ -19,6 +19,8 @@ body {
   background: var(--color-background);
   color: var(--color-text);
   font-family: var(--font-sans);
+  /* evite qu'un mot long (URL, nom de fichier) fasse deborder la page */
+  overflow-wrap: break-word;
 }
 
 .map-grid {

@@ -65,7 +65,7 @@ export default function Navbar() {
           </span>
           <span className="hidden sm:block h-5 w-px bg-secondary/15" />
           <span className="hidden sm:block text-[11px] font-semibold uppercase tracking-[0.18em] text-secondary/50">
-            Géomatique
+            Portfolio Professionnel
           </span>
         </a>
 
