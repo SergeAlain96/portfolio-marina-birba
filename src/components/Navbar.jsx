@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { TbMapPinFilled, TbMenu2, TbX } from 'react-icons/tb'
+import { Link } from 'react-router-dom'
+import { TbLock, TbMapPinFilled, TbMenu2, TbX } from 'react-icons/tb'
 
 const links = [
   { to: '#home', label: 'Accueil' },
@@ -24,7 +25,7 @@ export default function Navbar() {
           <TbMapPinFilled size={22} />
         </a>
 
-        <div className="hidden md:flex gap-6">
+        <div className="hidden md:flex items-center gap-6">
           {links.map((link) => (
             <a
               key={link.to}
@@ -34,17 +35,35 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+          <Link
+            to="/admin"
+            aria-label="Connexion administration"
+            title="Connexion administration"
+            className="text-secondary/40 hover:text-primary transition-colors"
+          >
+            <TbLock size={18} />
+          </Link>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
-          aria-expanded={open}
-          className="md:hidden text-secondary"
-        >
-          {open ? <TbX size={24} /> : <TbMenu2 size={24} />}
-        </button>
+        <div className="flex items-center gap-4 md:hidden">
+          <Link
+            to="/admin"
+            aria-label="Connexion administration"
+            title="Connexion administration"
+            className="text-secondary/40 hover:text-primary transition-colors"
+          >
+            <TbLock size={20} />
+          </Link>
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
+            aria-expanded={open}
+            className="text-secondary"
+          >
+            {open ? <TbX size={24} /> : <TbMenu2 size={24} />}
+          </button>
+        </div>
       </div>
 
       {open && (
