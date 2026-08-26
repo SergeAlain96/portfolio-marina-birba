@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
 
-export default function ProjectCard({ project }) {
+export default function ProjectCard({ project, onOpen }) {
+  const imageCount = project.project_images?.length ?? 0
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -21,17 +23,24 @@ export default function ProjectCard({ project }) {
             })}
           </span>
         )}
-        {project.description && <p className="mt-3 text-sm flex-1">{project.description}</p>}
-        {project.document_url && (
-          <a
-            href={project.document_url}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-4 self-start px-4 py-2 rounded-xl border-2 border-accent text-accent font-semibold hover:bg-accent hover:text-white transition-colors"
-          >
-            Voir le document
-          </a>
+        {project.description && (
+          <p className="mt-3 text-sm flex-1 line-clamp-4">{project.description}</p>
         )}
+
+        <div className="flex items-center gap-3 mt-4">
+          <button
+            type="button"
+            onClick={() => onOpen(project)}
+            className="px-4 py-2 rounded-xl border-2 border-accent text-accent font-semibold hover:bg-accent hover:text-white transition-colors"
+          >
+            Voir le projet
+          </button>
+          {imageCount > 0 && (
+            <span className="text-xs text-text/50">
+              {imageCount} image{imageCount > 1 ? 's' : ''}
+            </span>
+          )}
+        </div>
       </div>
     </motion.div>
   )
