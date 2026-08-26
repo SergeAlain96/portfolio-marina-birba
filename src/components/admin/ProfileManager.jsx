@@ -22,6 +22,7 @@ export default function ProfileManager() {
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState('')
   const [uploadError, setUploadError] = useState('')
+  const [saveError, setSaveError] = useState('')
 
   useEffect(() => {
     supabase
@@ -54,10 +55,13 @@ export default function ProfileManager() {
   async function handleSubmit(e) {
     e.preventDefault()
     setSaving(true)
+    setSaveError('')
     if (profileId) {
-      await supabase.from('profiles').update(profile).eq('id', profileId)
+      const { error } = await supabase.from('profiles').update(profile).eq('id', profileId)
+      if (error) setSaveError(error.message)
     } else {
-      const { data } = await supabase.from('profiles').insert(profile).select().single()
+      const { data, error } = await supabase.from('profiles').insert(profile).select().single()
+      if (error) setSaveError(error.message)
       if (data) setProfileId(data.id)
     }
     setSaving(false)
@@ -154,6 +158,7 @@ export default function ProfileManager() {
       />
 
       {uploadError && <p className="text-red-600 text-sm font-medium">Upload échoué : {uploadError}</p>}
+      {saveError && <p className="text-red-600 text-sm font-medium">Enregistrement échoué : {saveError}</p>}
 
       <button
         type="submit"
