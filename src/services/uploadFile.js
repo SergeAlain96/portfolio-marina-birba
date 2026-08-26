@@ -22,3 +22,26 @@ export async function uploadFile(file, folder) {
   const { data } = supabase.storage.from('media').getPublicUrl(path)
   return data.publicUrl
 }
+
+// Retrouve le chemin interne du fichier a partir de son URL publique
+// (.../object/public/media/projects/123-photo.png -> projects/123-photo.png)
+function pathFromPublicUrl(url) {
+  const marker = '/object/public/media/'
+  const index = url.indexOf(marker)
+  if (index === -1) return null
+  return decodeURIComponent(url.slice(index + marker.length))
+}
+
+export async function deleteFile(url) {
+  if (!url) return
+  const path = pathFromPublicUrl(url)
+  if (!path) return
+  await supabase.storage.from('media').remove([path])
+}
+
+export function filenameFromUrl(url) {
+  const path = pathFromPublicUrl(url) || url
+  const name = path.split('/').pop() || 'document'
+  // retire le prefixe timestamp ajoute a l'upload
+  return name.replace(/^\d{10,}-/, '')
+}
