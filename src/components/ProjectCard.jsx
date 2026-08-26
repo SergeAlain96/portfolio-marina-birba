@@ -22,12 +22,16 @@ export default function ProjectCard({ project }) {
           </span>
         )}
         {project.description && <p className="mt-3 text-sm flex-1">{project.description}</p>}
-        <button
-          type="button"
-          className="mt-4 self-start px-4 py-2 rounded-xl border-2 border-accent text-accent font-semibold hover:bg-accent hover:text-white transition-colors"
-        >
-          Voir le projet
-        </button>
+        {project.document_url && (
+          <a
+            href={project.document_url}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-4 self-start px-4 py-2 rounded-xl border-2 border-accent text-accent font-semibold hover:bg-accent hover:text-white transition-colors"
+          >
+            Voir le document
+          </a>
+        )}
       </div>
     </motion.div>
   )

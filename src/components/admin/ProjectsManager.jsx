@@ -3,13 +3,14 @@ import { supabase } from '../../services/supabase'
 import { uploadFile } from '../../services/uploadFile'
 import FileDropzone from './FileDropzone'
 
-const emptyForm = { title: '', description: '', cover_image: '', project_date: '' }
+const emptyForm = { title: '', description: '', cover_image: '', document_url: '', project_date: '' }
 
 export default function ProjectsManager() {
   const [projects, setProjects] = useState([])
   const [form, setForm] = useState(emptyForm)
   const [editingId, setEditingId] = useState(null)
   const [uploadingCover, setUploadingCover] = useState(false)
+  const [uploadingDocument, setUploadingDocument] = useState(false)
   const [uploadingGalleryFor, setUploadingGalleryFor] = useState(null)
   const [uploadError, setUploadError] = useState('')
 
@@ -38,12 +39,34 @@ export default function ProjectsManager() {
     setUploadingCover(false)
   }
 
+  async function handleDocumentUpload(file) {
+    if (!file) return
+    setUploadingDocument(true)
+    setUploadError('')
+    try {
+      const url = await uploadFile(file, 'documents')
+      setForm((f) => ({ ...f, document_url: url }))
+    } catch (err) {
+      setUploadError(err.message)
+    }
+    setUploadingDocument(false)
+  }
+
   async function handleSubmit(e) {
     e.preventDefault()
+    setUploadError('')
     if (editingId) {
-      await supabase.from('projects').update(form).eq('id', editingId)
+      const { error } = await supabase.from('projects').update(form).eq('id', editingId)
+      if (error) {
+        setUploadError(error.message)
+        return
+      }
     } else {
-      await supabase.from('projects').insert(form)
+      const { error } = await supabase.from('projects').insert(form)
+      if (error) {
+        setUploadError(error.message)
+        return
+      }
     }
     setForm(emptyForm)
     setEditingId(null)
@@ -52,10 +75,11 @@ export default function ProjectsManager() {
 
   function handleEdit(project) {
     setEditingId(project.id)
-    setForm({
+    setForm({ 
       title: project.title || '',
       description: project.description || '',
       cover_image: project.cover_image || '',
+      document_url: project.document_url || '',
       project_date: project.project_date || '',
     })
   }
@@ -117,6 +141,25 @@ export default function ProjectsManager() {
         >
           {form.cover_image && (
             <img src={form.cover_image} alt="Couverture" className="w-32 h-20 object-cover rounded-lg" />
+          )}
+        </FileDropzone>
+
+        <FileDropzone
+          label="Document du projet (rapport)"
+          accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          hint="PDF ou Word"
+          uploading={uploadingDocument}
+          onFiles={handleDocumentUpload}
+        >
+          {form.document_url && (
+            <a
+              href={form.document_url}
+              target="_blank"
+              rel="noreferrer"
+              className="text-primary text-sm font-medium underline"
+            >
+              Voir le document actuel
+            </a>
           )}
         </FileDropzone>
 

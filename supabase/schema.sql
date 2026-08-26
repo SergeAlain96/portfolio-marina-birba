@@ -49,6 +49,7 @@ create table projects (
   title text,
   description text,
   cover_image text,
+  document_url text,
   project_date date,
   created_at timestamp default now()
 );
