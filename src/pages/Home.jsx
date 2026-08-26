@@ -63,9 +63,6 @@ export default function Home() {
           ) : (
             <div className="w-56 h-56 md:w-72 md:h-72 rounded-full bg-white/60 ring-4 ring-white shadow-xl" />
           )}
-          <span className="coord-label absolute -bottom-2 bg-accent text-white text-xs px-3 py-1 rounded-full shadow-lg">
-            12.3714° N, 1.5197° W — Ouagadougou
-          </span>
         </motion.div>
       </div>
     </section>

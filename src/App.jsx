@@ -6,12 +6,30 @@ import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 
+// Le site public garde la navbar et le pied de page ;
+// l'administration a sa propre mise en page.
+function PublicLayout({ children }) {
+  return (
+    <>
+      <Navbar />
+      {children}
+      <Footer />
+    </>
+  )
+}
+
 function App() {
   return (
     <Router>
-      <Navbar />
       <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route
+          path="/"
+          element={
+            <PublicLayout>
+              <Landing />
+            </PublicLayout>
+          }
+        />
         <Route path="/admin" element={<Login />} />
         <Route
           path="/admin/dashboard"
@@ -22,7 +40,6 @@ function App() {
           }
         />
       </Routes>
-      <Footer />
     </Router>
   )
 }

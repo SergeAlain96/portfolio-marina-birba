@@ -40,10 +40,53 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-6xl mx-auto px-6 py-10 grid md:grid-cols-[220px_1fr] gap-8 items-start">
-        <aside className="bg-white rounded-2xl shadow-sm p-4 md:sticky md:top-24">
-          <p className="text-xs font-semibold uppercase text-text/50 px-3 mb-3">Administration</p>
-          <nav className="flex md:flex-col gap-1 flex-wrap">
+      {/* Barre superieure : mobile uniquement */}
+      <header className="md:hidden sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-secondary/10">
+        <div className="flex items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-2.5">
+            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-secondary text-white text-xs font-bold">
+              MB
+            </span>
+            <span className="text-sm font-semibold text-secondary">Administration</span>
+          </div>
+          <button
+            onClick={handleLogout}
+            aria-label="Déconnexion"
+            className="flex items-center justify-center w-9 h-9 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+          >
+            <TbLogout size={18} />
+          </button>
+        </div>
+
+        {/* Onglets : defilement horizontal, pas de retour a la ligne */}
+        <nav className="flex gap-1 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {tabs.map((tab) => {
+            const Icon = tab.icon
+            return (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`flex items-center gap-1.5 shrink-0 px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+                  activeTab === tab.key
+                    ? 'bg-primary text-white'
+                    : 'text-secondary/70 hover:bg-secondary/5'
+                }`}
+              >
+                <Icon size={16} />
+                {tab.label}
+              </button>
+            )
+          })}
+        </nav>
+      </header>
+
+      <div className="max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-10 grid md:grid-cols-[220px_1fr] gap-6 md:gap-8 items-start">
+        {/* Barre laterale : desktop uniquement */}
+        <aside className="hidden md:block bg-white rounded-2xl shadow-sm p-4 sticky top-24">
+          <p className="text-xs font-semibold uppercase tracking-wider text-text/50 px-3 mb-3">
+            Administration
+          </p>
+          <nav className="flex flex-col gap-1">
             {tabs.map((tab) => {
               const Icon = tab.icon
               return (
@@ -71,9 +114,11 @@ export default function Dashboard() {
           </button>
         </aside>
 
-        <main>
-          <h1 className="text-2xl font-bold text-secondary mb-6">{active.label}</h1>
-          <div className="bg-white rounded-2xl shadow-sm p-6">
+        <main className="min-w-0">
+          <h1 className="text-xl md:text-2xl font-bold text-secondary mb-4 md:mb-6">
+            {active.label}
+          </h1>
+          <div className="bg-white rounded-2xl shadow-sm p-4 md:p-6">
             <ActiveComponent />
           </div>
         </main>
