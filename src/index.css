@@ -32,3 +32,90 @@ body {
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.08em;
 }
+
+/* --- Animations d'ambiance (lentes, discretes) --- */
+
+@keyframes drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, -5%, 0) scale(1.08);
+  }
+}
+
+@keyframes drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-5%, 4%, 0) scale(0.94);
+  }
+}
+
+@keyframes slow-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes soft-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.animate-drift-a {
+  animation: drift-a 26s ease-in-out infinite;
+}
+
+.animate-drift-b {
+  animation: drift-b 32s ease-in-out infinite;
+}
+
+.animate-slow-spin {
+  animation: slow-spin 90s linear infinite;
+}
+
+.animate-soft-pulse {
+  animation: soft-pulse 6s ease-in-out infinite;
+}
+
+/* Elevation douce au survol des cartes */
+.card-lift {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px -12px rgba(13, 71, 161, 0.25);
+}
+
+/* Respecte le reglage systeme "reduire les animations" */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-drift-a,
+  .animate-drift-b,
+  .animate-slow-spin,
+  .animate-soft-pulse {
+    animation: none;
+  }
+
+  .card-lift:hover {
+    transform: none;
+  }
+}

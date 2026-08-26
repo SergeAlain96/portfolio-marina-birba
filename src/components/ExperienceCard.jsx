@@ -11,7 +11,7 @@ export default function ExperienceCard({ experience }) {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="bg-white rounded-2xl shadow-sm p-6"
+      className="card-lift bg-white rounded-2xl shadow-sm p-6"
     >
       <div className="flex items-center justify-between flex-wrap gap-2">
         <h3 className="text-lg font-semibold text-secondary">{experience.title}</h3>

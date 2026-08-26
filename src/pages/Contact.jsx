@@ -4,6 +4,7 @@ import { FiMail, FiLinkedin, FiPhone } from 'react-icons/fi'
 import { TbBrandWhatsapp } from 'react-icons/tb'
 import { supabase } from '../services/supabase'
 import { useProfile } from '../hooks/useProfile'
+import AmbientBackground from '../components/AmbientBackground'
 
 const emptyForm = { name: '', email: '', subject: '', message: '' }
 
@@ -29,7 +30,9 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="max-w-2xl mx-auto px-6 py-16 scroll-mt-20">
+    <section id="contact" className="relative overflow-hidden scroll-mt-20">
+      <AmbientBackground />
+      <div className="relative max-w-2xl mx-auto px-6 py-16">
       <h1 className="text-3xl font-bold text-secondary mb-6">Contact</h1>
 
       <motion.form
@@ -128,6 +131,7 @@ export default function Contact() {
           )}
         </motion.div>
       )}
+      </div>
     </section>
   )
 }

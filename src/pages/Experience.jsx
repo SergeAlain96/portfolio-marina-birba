@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { TbRoute } from 'react-icons/tb'
 import { useExperiences } from '../hooks/useExperiences'
 import { useEducation } from '../hooks/useEducation'
+import AmbientBackground from '../components/AmbientBackground'
 import ExperienceCard from '../components/ExperienceCard'
 
 export default function Experience() {
@@ -9,7 +10,9 @@ export default function Experience() {
   const { education, loading: loadingEdu } = useEducation()
 
   return (
-    <section id="experience" className="max-w-3xl mx-auto px-6 py-16 scroll-mt-20">
+    <section id="experience" className="relative overflow-hidden scroll-mt-20">
+      <AmbientBackground variant="alt" />
+      <div className="relative max-w-3xl mx-auto px-6 py-16">
       <h1 className="flex items-center gap-2 text-3xl font-bold text-secondary mb-10">
         <TbRoute className="text-accent" />
         Expériences Professionnelles
@@ -37,7 +40,7 @@ export default function Experience() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              className="bg-white rounded-2xl shadow-sm p-6 border-l-4 border-accent"
+              className="card-lift bg-white rounded-2xl shadow-sm p-6 border-l-4 border-accent"
             >
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <h3 className="text-lg font-semibold text-secondary">{item.degree}</h3>
@@ -49,6 +52,7 @@ export default function Experience() {
               </p>
             </motion.div>
           ))}
+      </div>
       </div>
     </section>
   )

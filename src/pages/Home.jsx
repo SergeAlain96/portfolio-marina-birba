@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useProfile } from '../hooks/useProfile'
+import AmbientBackground from '../components/AmbientBackground'
 import TopoLines from '../components/TopoLines'
 
 export default function Home() {
@@ -9,7 +10,8 @@ export default function Home() {
 
   return (
     <section id="home" className="map-grid relative overflow-hidden px-6 py-20 md:py-28 scroll-mt-20">
-      <div className="max-w-5xl mx-auto grid md:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
+      <AmbientBackground />
+      <div className="relative max-w-5xl mx-auto grid md:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -51,7 +53,7 @@ export default function Home() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="relative flex justify-center"
         >
-          <TopoLines className="absolute inset-0 w-full h-full text-accent/25 -z-10" />
+          <TopoLines className="absolute inset-0 w-full h-full text-accent/25 -z-10 animate-slow-spin" />
           {profile?.photo_url ? (
             <img
               src={profile.photo_url}
@@ -61,7 +63,7 @@ export default function Home() {
           ) : (
             <div className="w-56 h-56 md:w-72 md:h-72 rounded-full bg-white/60 ring-4 ring-white shadow-xl" />
           )}
-          <span className="coord-label absolute -bottom-2 bg-accent text-white text-xs px-3 py-1 rounded-full">
+          <span className="coord-label absolute -bottom-2 bg-accent text-white text-xs px-3 py-1 rounded-full shadow-lg">
             12.3714° N, 1.5197° W — Ouagadougou
           </span>
         </motion.div>

@@ -8,7 +8,7 @@ export default function ProjectCard({ project, onOpen }) {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col border-t-2 border-accent"
+      className="card-lift bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col border-t-2 border-accent"
     >
       {project.cover_image && (
         <img src={project.cover_image} alt={project.title} className="w-full h-48 object-cover" />
