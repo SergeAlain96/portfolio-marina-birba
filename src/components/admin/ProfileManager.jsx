@@ -11,6 +11,7 @@ const emptyProfile = {
   cv_url: '',
   email: '',
   phone: '',
+  whatsapp: '',
   linkedin: '',
 }
 
@@ -127,12 +128,24 @@ export default function ProfileManager() {
         onChange={(e) => setProfile({ ...profile, email: e.target.value })}
         className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
       />
-      <input
-        placeholder="Téléphone"
-        value={profile.phone || ''}
-        onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
-        className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
-      />
+      <div>
+        <input
+          placeholder="Téléphone (appel simple)"
+          value={profile.phone || ''}
+          onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
+          className="w-full px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
+        />
+        <p className="text-xs text-text/50 mt-1">Affiché avec une icône appel, pas de lien WhatsApp.</p>
+      </div>
+      <div>
+        <input
+          placeholder="WhatsApp (avec indicatif, ex: +226...)"
+          value={profile.whatsapp || ''}
+          onChange={(e) => setProfile({ ...profile, whatsapp: e.target.value })}
+          className="w-full px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
+        />
+        <p className="text-xs text-text/50 mt-1">Laisser vide si aucun numéro n'est joignable sur WhatsApp.</p>
+      </div>
       <input
         placeholder="LinkedIn"
         value={profile.linkedin || ''}

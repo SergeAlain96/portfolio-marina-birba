@@ -12,6 +12,7 @@ create table profiles (
   cv_url text,
   email text,
   phone text,
+  whatsapp text,
   linkedin text,
   created_at timestamp default now()
 );

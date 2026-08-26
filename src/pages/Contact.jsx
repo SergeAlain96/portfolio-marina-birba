@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { FiMail, FiLinkedin } from 'react-icons/fi'
+import { FiMail, FiLinkedin, FiPhone } from 'react-icons/fi'
 import { TbBrandWhatsapp } from 'react-icons/tb'
 import { supabase } from '../services/supabase'
 import { useProfile } from '../hooks/useProfile'
@@ -93,12 +93,22 @@ export default function Contact() {
             profile.phone.split('/').map((number) => (
               <a
                 key={number}
+                href={`tel:${number.replace(/[^0-9+]/g, '')}`}
+                className="flex items-center gap-2 hover:text-primary"
+              >
+                <FiPhone className="text-accent" /> {number.trim()}
+              </a>
+            ))}
+          {profile.whatsapp &&
+            profile.whatsapp.split('/').map((number) => (
+              <a
+                key={number}
                 href={toWhatsappLink(number)}
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center gap-2 hover:text-primary"
               >
-                <TbBrandWhatsapp className="text-accent" /> {number.trim()}
+                <TbBrandWhatsapp className="text-accent" /> {number.trim()} (WhatsApp)
               </a>
             ))}
           {profile.email && (
