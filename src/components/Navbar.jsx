@@ -18,10 +18,10 @@ export default function Navbar() {
         <a
           href="#home"
           onClick={() => setOpen(false)}
-          className="flex items-center gap-2 font-bold text-secondary whitespace-nowrap"
+          aria-label="Retour à l'accueil"
+          className="flex items-center text-accent hover:opacity-80 transition-opacity"
         >
-          <TbMapPinFilled className="text-accent shrink-0" size={20} />
-          Marina Birba
+          <TbMapPinFilled size={22} />
         </a>
 
         <div className="hidden md:flex gap-6">
