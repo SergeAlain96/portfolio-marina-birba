@@ -6,6 +6,7 @@ import {
   TbLayoutGrid,
   TbLogout,
   TbSchool,
+  TbShieldLock,
   TbUser,
 } from 'react-icons/tb'
 import { supabase } from '../services/supabase'
@@ -14,6 +15,7 @@ import ExperiencesManager from '../components/admin/ExperiencesManager'
 import EducationManager from '../components/admin/EducationManager'
 import SkillsManager from '../components/admin/SkillsManager'
 import ProjectsManager from '../components/admin/ProjectsManager'
+import PasswordManager from '../components/admin/PasswordManager'
 
 const tabs = [
   { key: 'profile', label: 'Profil', icon: TbUser, component: ProfileManager },
@@ -21,6 +23,7 @@ const tabs = [
   { key: 'education', label: 'Formations', icon: TbSchool, component: EducationManager },
   { key: 'skills', label: 'Compétences', icon: TbChartDots3, component: SkillsManager },
   { key: 'projects', label: 'Projets', icon: TbLayoutGrid, component: ProjectsManager },
+  { key: 'security', label: 'Sécurité', icon: TbShieldLock, component: PasswordManager },
 ]
 
 export default function Dashboard() {
