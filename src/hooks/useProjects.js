@@ -8,7 +8,7 @@ export function useProjects() {
   useEffect(() => {
     supabase
       .from('projects')
-      .select('*, project_images(*)')
+      .select('*, project_images(*), project_documents(*)')
       .order('project_date', { ascending: false })
       .then(({ data }) => {
         setProjects(data ?? [])

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { TbCalendar, TbDownload, TbPhoto, TbX } from 'react-icons/tb'
+import { TbCalendar, TbDownload, TbFileText, TbPhoto, TbX } from 'react-icons/tb'
+import { filenameFromUrl } from '../services/uploadFile'
 
 function formatDate(date) {
   return new Date(date).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
@@ -111,16 +112,31 @@ export default function ProjectModal({ project, onClose }) {
                 </div>
               )}
 
-              {project.document_url && (
-                <a
-                  href={project.document_url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 mt-8 px-5 py-3 rounded-xl bg-accent text-white font-semibold hover:opacity-90 transition-opacity"
-                >
-                  <TbDownload size={18} />
-                  Télécharger le document
-                </a>
+              {project.project_documents?.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="flex items-center gap-2 text-sm font-semibold uppercase text-secondary/60 mb-3">
+                    <TbFileText size={16} className="text-accent" />
+                    Documents
+                  </h3>
+                  <div className="flex flex-col gap-2">
+                    {project.project_documents.map((doc) => (
+                      <a
+                        key={doc.id}
+                        href={doc.document_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group flex items-center gap-3 min-w-0 px-4 py-3 rounded-xl border border-secondary/10 hover:border-accent/40 hover:bg-accent/5 transition-colors"
+                      >
+                        <span className="flex items-center justify-center w-9 h-9 shrink-0 rounded-lg bg-accent/10 text-accent group-hover:bg-accent group-hover:text-white transition-colors">
+                          <TbDownload size={17} />
+                        </span>
+                        <span className="text-sm font-medium text-secondary truncate">
+                          {doc.label || filenameFromUrl(doc.document_url)}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
           </motion.div>

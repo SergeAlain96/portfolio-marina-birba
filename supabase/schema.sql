@@ -61,6 +61,14 @@ create table project_images (
   created_at timestamp default now()
 );
 
+create table project_documents (
+  id uuid primary key default gen_random_uuid(),
+  project_id uuid references projects(id) on delete cascade,
+  document_url text not null,
+  label text,
+  created_at timestamp default now()
+);
+
 create table messages (
   id uuid primary key default gen_random_uuid(),
   name text,
@@ -77,6 +85,7 @@ alter table education enable row level security;
 alter table skills enable row level security;
 alter table projects enable row level security;
 alter table project_images enable row level security;
+alter table project_documents enable row level security;
 alter table messages enable row level security;
 
 create policy "public read profiles" on profiles for select using (true);
@@ -85,6 +94,7 @@ create policy "public read education" on education for select using (true);
 create policy "public read skills" on skills for select using (true);
 create policy "public read projects" on projects for select using (true);
 create policy "public read project_images" on project_images for select using (true);
+create policy "public read project_documents" on project_documents for select using (true);
 
 create policy "auth write profiles" on profiles for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 create policy "auth write experiences" on experiences for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
@@ -92,6 +102,7 @@ create policy "auth write education" on education for all using (auth.role() = '
 create policy "auth write skills" on skills for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 create policy "auth write projects" on projects for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 create policy "auth write project_images" on project_images for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+create policy "auth write project_documents" on project_documents for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 
 -- messages : n'importe qui peut envoyer, seule l'admin authentifiee peut lire/gerer
 create policy "public insert messages" on messages for insert with check (true);

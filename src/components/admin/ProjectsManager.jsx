@@ -17,7 +17,7 @@ export default function ProjectsManager() {
   async function refresh() {
     const { data, error } = await supabase
       .from('projects')
-      .select('*, project_images(*)')
+      .select('*, project_images(*), project_documents(*)')
       .order('project_date', { ascending: false })
     if (error) setError(error.message)
     setProjects(data ?? [])
@@ -67,9 +67,11 @@ export default function ProjectsManager() {
 
     // nettoie les fichiers associes avant de supprimer la ligne
     await deleteFile(project.cover_image)
-    await deleteFile(project.document_url)
     for (const image of project.project_images ?? []) {
       await deleteFile(image.image_url)
+    }
+    for (const doc of project.project_documents ?? []) {
+      await deleteFile(doc.document_url)
     }
 
     const { error } = await supabase.from('projects').delete().eq('id', project.id)
@@ -109,6 +111,36 @@ export default function ProjectsManager() {
       setError(err.message)
     }
     setBusy(null)
+  }
+
+  async function handleDocumentsUpload(project, files) {
+    setBusy(`${project.id}:documents`)
+    setError('')
+    try {
+      for (const file of files) {
+        const url = await uploadFile(file, 'documents')
+        const { error } = await supabase
+          .from('project_documents')
+          .insert({ project_id: project.id, document_url: url, label: file.name })
+        if (error) throw error
+      }
+      await refresh()
+    } catch (err) {
+      setError(err.message)
+    }
+    setBusy(null)
+  }
+
+  async function handleDocumentDelete(doc) {
+    if (!window.confirm('Supprimer ce document ?')) return
+    setError('')
+    const { error } = await supabase.from('project_documents').delete().eq('id', doc.id)
+    if (error) {
+      setError(error.message)
+      return
+    }
+    await deleteFile(doc.document_url)
+    refresh()
   }
 
   async function handleGalleryUpload(project, files) {
@@ -273,40 +305,43 @@ export default function ProjectsManager() {
                 )}
               </div>
 
-              {/* Document */}
+              {/* Documents (plusieurs par projet) */}
               <div>
-                {project.document_url ? (
-                  <div>
-                    <p className="text-sm font-medium text-secondary mb-2">Document</p>
-                    <div className="flex items-center gap-2 min-w-0 px-3 py-2 rounded-lg bg-white border border-secondary/10">
-                      <TbFileText size={18} className="text-accent shrink-0" />
-                      <a
-                        href={project.document_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-sm text-primary underline truncate"
+                <FileDropzone
+                  label={`Documents (${project.project_documents?.length ?? 0})`}
+                  accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  multiple
+                  hint="PDF ou Word, plusieurs possibles"
+                  uploading={busy === `${project.id}:documents`}
+                  onFiles={(files) => handleDocumentsUpload(project, files)}
+                >
+                  <div className="flex flex-col gap-2">
+                    {project.project_documents?.map((doc) => (
+                      <div
+                        key={doc.id}
+                        className="flex items-center gap-2 min-w-0 px-3 py-2 rounded-lg bg-white border border-secondary/10"
                       >
-                        {filenameFromUrl(project.document_url)}
-                      </a>
-                      <button
-                        type="button"
-                        onClick={() => removeProjectFile(project, 'document_url', 'le document')}
-                        aria-label="Supprimer le document"
-                        className="ml-auto shrink-0 text-red-600 hover:text-red-700"
-                      >
-                        <TbTrash size={16} />
-                      </button>
-                    </div>
+                        <TbFileText size={18} className="text-accent shrink-0" />
+                        <a
+                          href={doc.document_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-sm text-primary underline truncate"
+                        >
+                          {doc.label || filenameFromUrl(doc.document_url)}
+                        </a>
+                        <button
+                          type="button"
+                          onClick={() => handleDocumentDelete(doc)}
+                          aria-label="Supprimer ce document"
+                          className="ml-auto shrink-0 text-red-600 hover:text-red-700"
+                        >
+                          <TbTrash size={16} />
+                        </button>
+                      </div>
+                    ))}
                   </div>
-                ) : (
-                  <FileDropzone
-                    label="Document (rapport)"
-                    accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                    hint="PDF ou Word"
-                    uploading={busy === `${project.id}:document_url`}
-                    onFiles={(file) => replaceProjectFile(project, 'document_url', file, 'documents')}
-                  />
-                )}
+                </FileDropzone>
               </div>
             </div>
 
