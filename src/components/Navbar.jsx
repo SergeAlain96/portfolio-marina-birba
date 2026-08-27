@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { TbLock, TbMenu2, TbX } from 'react-icons/tb'
+import GeoLogo from './GeoLogo'
 
 const links = [
   { id: 'home', label: 'Accueil' },
@@ -60,8 +61,8 @@ export default function Navbar() {
           aria-label="Retour à l'accueil"
           className="group flex items-center gap-2.5"
         >
-          <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-secondary text-white text-sm font-bold tracking-tight transition-transform group-hover:scale-105">
-            MB
+          <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-secondary text-white transition-transform group-hover:scale-105">
+            <GeoLogo size={20} />
           </span>
           <span className="hidden sm:block h-5 w-px bg-secondary/15" />
           <span className="hidden sm:block text-[11px] font-semibold uppercase tracking-[0.18em] text-secondary/50">

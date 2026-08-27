@@ -10,6 +10,7 @@ import {
   TbUser,
 } from 'react-icons/tb'
 import { supabase } from '../services/supabase'
+import GeoLogo from '../components/GeoLogo'
 import ProfileManager from '../components/admin/ProfileManager'
 import ExperiencesManager from '../components/admin/ExperiencesManager'
 import EducationManager from '../components/admin/EducationManager'
@@ -44,8 +45,8 @@ export default function Dashboard() {
       <header className="md:hidden sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-secondary/10">
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2.5">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-secondary text-white text-xs font-bold">
-              MB
+            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-secondary text-white">
+              <GeoLogo size={18} />
             </span>
             <span className="text-sm font-semibold text-secondary">Administration</span>
           </div>

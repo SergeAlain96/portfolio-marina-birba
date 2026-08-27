@@ -4,6 +4,7 @@ import { TbArrowLeft } from 'react-icons/tb'
 import { supabase } from '../services/supabase'
 import { useAuth } from '../hooks/useAuth'
 import AmbientBackground from '../components/AmbientBackground'
+import GeoLogo from '../components/GeoLogo'
 
 export default function Login() {
   const { session, loading } = useAuth()
@@ -44,8 +45,8 @@ export default function Login() {
 
         <div className="bg-white rounded-2xl shadow-xl border border-secondary/5 p-7">
           <div className="flex items-center gap-2.5 mb-1">
-            <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-secondary text-white text-sm font-bold">
-              MB
+            <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-secondary text-white">
+              <GeoLogo size={20} />
             </span>
             <h1 className="text-lg font-bold text-secondary">Administration</h1>
           </div>
