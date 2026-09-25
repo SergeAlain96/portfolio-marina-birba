@@ -1,0 +1,172 @@
+import { useEffect, useState } from 'react'
+import { supabase } from '../../services/supabase'
+import { uploadFile } from '../../services/uploadFile'
+import FileDropzone from './FileDropzone'
+
+const emptyProfile = {
+  fullname: '',
+  title: '',
+  bio: '',
+  photo_url: '',
+  cv_url: '',
+  email: '',
+  phone: '',
+  whatsapp: '',
+  linkedin: '',
+}
+
+export default function ProfileManager() {
+  const [profile, setProfile] = useState(emptyProfile)
+  const [profileId, setProfileId] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState('')
+  const [uploadError, setUploadError] = useState('')
+  const [saveError, setSaveError] = useState('')
+
+  useEffect(() => {
+    supabase
+      .from('profiles')
+      .select('*')
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data) {
+          setProfile(data)
+          setProfileId(data.id)
+        }
+        setLoading(false)
+      })
+  }, [])
+
+  async function handleUpload(field, file) {
+    if (!file) return
+    setUploading(field)
+    setUploadError('')
+    try {
+      const url = await uploadFile(file, field === 'photo_url' ? 'profile' : 'cv')
+      setProfile((p) => ({ ...p, [field]: url }))
+    } catch (err) {
+      setUploadError(err.message)
+    }
+    setUploading('')
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setSaving(true)
+    setSaveError('')
+    if (profileId) {
+      const { error } = await supabase.from('profiles').update(profile).eq('id', profileId)
+      if (error) setSaveError(error.message)
+    } else {
+      const { data, error } = await supabase.from('profiles').insert(profile).select().single()
+      if (error) setSaveError(error.message)
+      if (data) setProfileId(data.id)
+    }
+    setSaving(false)
+  }
+
+  if (loading) return null
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-2xl">
+      <input
+        placeholder="Nom complet"
+        value={profile.fullname || ''}
+        onChange={(e) => setProfile({ ...profile, fullname: e.target.value })}
+        className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
+      />
+      <input
+        placeholder="Titre professionnel"
+        value={profile.title || ''}
+        onChange={(e) => setProfile({ ...profile, title: e.target.value })}
+        className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
+      />
+      <textarea
+        rows={5}
+        placeholder="Biographie"
+        value={profile.bio || ''}
+        onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
+        className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
+      />
+
+      <FileDropzone
+        label="Photo de profil"
+        accept="image/*"
+        hint="JPG ou PNG"
+        uploading={uploading === 'photo_url'}
+        onFiles={(file) => handleUpload('photo_url', file)}
+      >
+        {profile.photo_url && (
+          <img
+            src={profile.photo_url}
+            alt="Profil"
+            className="w-24 h-24 rounded-full object-cover ring-2 ring-primary/20"
+          />
+        )}
+      </FileDropzone>
+
+      <FileDropzone
+        label="CV"
+        accept="application/pdf"
+        hint="Fichier PDF"
+        uploading={uploading === 'cv_url'}
+        onFiles={(file) => handleUpload('cv_url', file)}
+      >
+        {profile.cv_url && (
+          <a
+            href={profile.cv_url}
+            target="_blank"
+            rel="noreferrer"
+            className="text-primary text-sm font-medium underline"
+          >
+            Voir le CV actuel
+          </a>
+        )}
+      </FileDropzone>
+
+      <input
+        placeholder="Email"
+        value={profile.email || ''}
+        onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+        className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
+      />
+      <div>
+        <input
+          placeholder="Téléphone (appel simple)"
+          value={profile.phone || ''}
+          onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
+          className="w-full px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
+        />
+        <p className="text-xs text-text/50 mt-1">Affiché avec une icône appel, pas de lien WhatsApp.</p>
+      </div>
+      <div>
+        <input
+          placeholder="WhatsApp (avec indicatif, ex: +226...)"
+          value={profile.whatsapp || ''}
+          onChange={(e) => setProfile({ ...profile, whatsapp: e.target.value })}
+          className="w-full px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
+        />
+        <p className="text-xs text-text/50 mt-1">Laisser vide si aucun numéro n'est joignable sur WhatsApp.</p>
+      </div>
+      <input
+        placeholder="LinkedIn"
+        value={profile.linkedin || ''}
+        onChange={(e) => setProfile({ ...profile, linkedin: e.target.value })}
+        className="px-4 py-3 rounded-xl bg-background border border-secondary/10 outline-none focus:ring-2 focus:ring-primary"
+      />
+
+      {uploadError && <p className="text-red-600 text-sm font-medium">Upload échoué : {uploadError}</p>}
+      {saveError && <p className="text-red-600 text-sm font-medium">Enregistrement échoué : {saveError}</p>}
+
+      <button
+        type="submit"
+        disabled={saving}
+        className="self-start px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+      >
+        {saving ? 'Enregistrement...' : 'Enregistrer'}
+      </button>
+    </form>
+  )
+}
