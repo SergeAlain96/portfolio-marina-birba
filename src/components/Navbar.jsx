@@ -54,6 +54,13 @@ export default function Navbar() {
     }
   }, [])
 
+  function goToSection(e, id) {
+    e.preventDefault()
+    setActive(id)
+    setOpen(false)
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   return (
     <nav
       className={`sticky top-0 z-50 transition-all duration-300 ${
@@ -83,6 +90,7 @@ export default function Navbar() {
             <a
               key={link.id}
               href={`#${link.id}`}
+              onClick={(e) => goToSection(e, link.id)}
               className={`relative px-3.5 py-2 text-sm font-medium rounded-lg transition-colors ${
                 active === link.id
                   ? 'text-primary'
@@ -132,7 +140,7 @@ export default function Navbar() {
             <a
               key={link.id}
               href={`#${link.id}`}
-              onClick={() => setOpen(false)}
+              onClick={(e) => goToSection(e, link.id)}
               className={`flex items-center py-3 text-sm font-medium border-l-2 pl-4 transition-colors ${
                 active === link.id
                   ? 'border-accent text-primary'
