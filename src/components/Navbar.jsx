@@ -34,18 +34,24 @@ export default function Navbar() {
       .filter(Boolean)
     if (!sections.length) return
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-        if (visible) setActive(visible.target.id)
-      },
-      { rootMargin: '-45% 0px -45% 0px', threshold: [0, 0.25, 0.5, 1] },
-    )
+    function onScrollSpy() {
+      const line = window.innerHeight * 0.4
+      let current = sections[0]
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top - line <= 0) current = section
+      }
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
+      if (atBottom) current = sections[sections.length - 1]
+      setActive((prev) => (prev === current.id ? prev : current.id))
+    }
 
-    sections.forEach((section) => observer.observe(section))
-    return () => observer.disconnect()
+    onScrollSpy()
+    window.addEventListener('scroll', onScrollSpy, { passive: true })
+    window.addEventListener('resize', onScrollSpy)
+    return () => {
+      window.removeEventListener('scroll', onScrollSpy)
+      window.removeEventListener('resize', onScrollSpy)
+    }
   }, [])
 
   return (
