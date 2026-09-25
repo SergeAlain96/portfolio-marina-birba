@@ -6,6 +6,7 @@ import GeoLogo from './GeoLogo'
 const links = [
   { id: 'home', label: 'Accueil' },
   { id: 'about', label: 'À propos' },
+  { id: 'geomatique', label: 'Géomatique' },
   { id: 'experience', label: 'Expériences' },
   { id: 'projects', label: 'Projets' },
   { id: 'services', label: 'Services' },

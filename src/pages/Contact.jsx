@@ -36,6 +36,24 @@ export default function Contact() {
   const { profile } = useProfile()
   const [form, setForm] = useState(emptyForm)
   const [status, setStatus] = useState('idle')
+  const [sentVia, setSentVia] = useState(null)
+
+  const phones = profile?.phone ? profile.phone.split('/').map((n) => n.trim()).filter(Boolean) : []
+  const whatsapps = profile?.whatsapp
+    ? profile.whatsapp.split('/').map((n) => n.trim()).filter(Boolean)
+    : []
+
+  function buildMessageText() {
+    return [
+      'Bonjour,',
+      '',
+      `Nom : ${form.name}`,
+      `Email : ${form.email}`,
+      `Sujet : ${form.subject}`,
+      '',
+      form.message,
+    ].join('\n')
+  }
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -46,13 +64,24 @@ export default function Contact() {
       return
     }
     setForm(emptyForm)
+    setSentVia(null)
     setStatus('sent')
   }
 
-  const phones = profile?.phone ? profile.phone.split('/').map((n) => n.trim()).filter(Boolean) : []
-  const whatsapps = profile?.whatsapp
-    ? profile.whatsapp.split('/').map((n) => n.trim()).filter(Boolean)
-    : []
+  async function handleDeliver(channel) {
+    const body = encodeURIComponent(buildMessageText())
+    setStatus('sending')
+    const { error } = await supabase.from('messages').insert(form)
+    if (error) {
+      setStatus('error')
+      return
+    }
+    setForm(emptyForm)
+    setSentVia(channel)
+    setStatus('sent')
+
+    window.open(`${toWhatsappLink(whatsapps[0])}?text=${body}`, '_blank', 'noopener')
+  }
 
   return (
     <section id="contact" className="relative overflow-hidden scroll-mt-20">
@@ -110,19 +139,42 @@ export default function Contact() {
               onChange={(e) => setForm({ ...form, message: e.target.value })}
               className="px-4 py-3 rounded-xl bg-white border border-secondary/10 outline-none focus:ring-2 focus:ring-primary resize-y"
             />
-            <button
-              type="submit"
-              disabled={status === 'sending'}
-              className="self-start px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
-            >
-              {status === 'sending' ? 'Envoi...' : 'Envoyer le message'}
-            </button>
+            <div className="flex flex-wrap items-center gap-3">
+              {whatsapps.length > 0 && (
+                <button
+                  type="button"
+                  disabled={status === 'sending'}
+                  onClick={(e) => {
+                    if (!e.currentTarget.form.reportValidity()) return
+                    handleDeliver('whatsapp')
+                  }}
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-accent text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+                >
+                  <TbBrandWhatsapp />
+                  Envoyer via WhatsApp
+                </button>
+              )}
+              {whatsapps.length === 0 && (
+                <button
+                  type="submit"
+                  disabled={status === 'sending'}
+                  className="px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+                >
+                  {status === 'sending' ? 'Envoi...' : 'Envoyer le message'}
+                </button>
+              )}
+            </div>
             {status === 'sent' && (
-              <p className="text-accent text-sm font-medium">Message envoyé, merci !</p>
+              <p className="text-accent text-sm font-medium">
+                {sentVia === 'whatsapp' ? 'Message envoyé via WhatsApp, merci !' : 'Message envoyé, merci !'}
+              </p>
             )}
             {status === 'error' && (
               <p className="text-red-600 text-sm font-medium">Erreur lors de l'envoi, réessayez.</p>
             )}
+            <p className="text-text/50 text-xs">
+              Votre message est aussi enregistré dans mon espace administrateur.
+            </p>
           </motion.form>
 
           {profile && (
