@@ -83,7 +83,7 @@ export default function ProjectModal({ project, onClose }) {
               )}
 
               {project.description && (
-                <p className="mt-5 whitespace-pre-line leading-relaxed">{project.description}</p>
+                <p className="mt-5 whitespace-pre-line leading-relaxed text-justify hyphens-auto">{project.description}</p>
               )}
 
               {project.project_images?.length > 0 && (

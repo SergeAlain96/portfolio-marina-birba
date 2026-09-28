@@ -23,7 +23,9 @@ export default function ExperienceCard({ experience }) {
         {experience.company}
         {experience.location ? ` · ${experience.location}` : ''}
       </p>
-      {experience.description && <p className="mt-3 text-sm">{experience.description}</p>}
+      {experience.description && (
+        <p className="mt-3 text-sm text-justify hyphens-auto">{experience.description}</p>
+      )}
     </motion.div>
   )
 }

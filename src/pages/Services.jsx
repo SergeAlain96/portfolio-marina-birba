@@ -20,7 +20,7 @@ export default function Services() {
           <TbBriefcase className="text-accent" />
           Mes services
         </motion.h1>
-        <p className="text-text/60 mt-2 mb-8 max-w-2xl">
+        <p className="text-text/60 mt-2 mb-8 max-w-2xl text-justify hyphens-auto">
           Des prestations adaptées à vos besoins en cartographie, en analyse spatiale et en gestion de données géographiques.
         </p>
 

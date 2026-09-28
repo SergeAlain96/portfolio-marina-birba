@@ -188,6 +188,14 @@ L'administratrice pourra :
 * Modifier la biographie
 * Modifier les informations de contact
 
+### Géomatique
+
+Section « Géomatique » du site public :
+
+* Modifier le sur-titre, le titre et les paragraphes
+* Ajouter, modifier, supprimer et réordonner les piliers
+* Modifier le titre et la liste des domaines d'application
+
 ### Expériences
 
 * Ajouter
@@ -283,6 +291,30 @@ name TEXT
 category TEXT
 created_at TIMESTAMP
 ```
+
+---
+
+## geomatics
+
+Ligne unique décrivant la section « Géomatique » du site public.
+
+```sql
+id UUID PRIMARY KEY
+label TEXT
+title TEXT
+intro TEXT
+detail TEXT
+note TEXT
+pillars JSONB
+fields_title TEXT
+fields JSONB
+created_at TIMESTAMPTZ
+updated_at TIMESTAMPTZ
+```
+
+`pillars` est une liste d'objets `{ "icon", "title", "text" }` où `icon` vaut `gps`,
+`settings`, `database` ou `map`. `fields` est une liste de textes affichés sous forme
+d'étiquettes. Un texte vide masque l'élément correspondant sur le site.
 
 ---
 
@@ -585,7 +617,8 @@ Pour une base existante, exécuter les scripts suivants dans cet ordre :
 
 1. `supabase/migration_services.sql`
 2. `supabase/migration_admin_permissions.sql`
-3. `supabase/storage.sql`
+3. `supabase/migration_geomatics.sql`
+4. `supabase/storage.sql`
 
 Le rôle du compte d'administration doit être défini dans les métadonnées applicatives du compte Supabase avec la valeur suivante :
 

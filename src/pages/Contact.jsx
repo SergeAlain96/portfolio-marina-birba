@@ -172,9 +172,6 @@ export default function Contact() {
             {status === 'error' && (
               <p className="text-red-600 text-sm font-medium">Erreur lors de l'envoi, réessayez.</p>
             )}
-            <p className="text-text/50 text-xs">
-              Votre message est aussi enregistré dans mon espace administrateur.
-            </p>
           </motion.form>
 
           {profile && (
@@ -210,12 +207,21 @@ export default function Contact() {
               ))}
 
               {profile.email && (
-                <ContactItem
-                  icon={FiMail}
-                  label="Email"
-                  value={profile.email}
-                  href={`mailto:${profile.email}`}
-                />
+                <>
+                  <ContactItem
+                    icon={FiMail}
+                    label="Email"
+                    value={profile.email}
+                    href={`mailto:${profile.email}`}
+                  />
+                  <p className="flex items-start gap-2 text-xs text-text/55 bg-accent/5 border border-accent/20 rounded-xl px-3 py-2.5">
+                    <FiMail size={14} className="mt-0.5 shrink-0 text-accent" />
+                    <span>
+                      Pour me contacter par mail, cliquez sur l'adresse ci-dessus : elle ouvre votre
+                      application de messagerie avec mon adresse déjà préremplie.
+                    </span>
+                  </p>
+                </>
               )}
 
               {profile.linkedin && (

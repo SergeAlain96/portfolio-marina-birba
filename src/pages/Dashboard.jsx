@@ -5,6 +5,7 @@ import {
   TbChartDots3,
   TbLayoutGrid,
   TbLogout,
+  TbMap,
   TbSchool,
   TbShieldLock,
   TbUser,
@@ -12,6 +13,7 @@ import {
 import { supabase } from '../services/supabase'
 import GeoLogo from '../components/GeoLogo'
 import ProfileManager from '../components/admin/ProfileManager'
+import GeomaticsManager from '../components/admin/GeomaticsManager'
 import ExperiencesManager from '../components/admin/ExperiencesManager'
 import EducationManager from '../components/admin/EducationManager'
 import SkillsManager from '../components/admin/SkillsManager'
@@ -21,6 +23,7 @@ import PasswordManager from '../components/admin/PasswordManager'
 
 const tabs = [
   { key: 'profile', label: 'Profil', icon: TbUser, component: ProfileManager },
+  { key: 'geomatics', label: 'Géomatique', icon: TbMap, component: GeomaticsManager },
   { key: 'experiences', label: 'Expériences', icon: TbBriefcase, component: ExperiencesManager },
   { key: 'education', label: 'Formations', icon: TbSchool, component: EducationManager },
   { key: 'skills', label: 'Compétences', icon: TbChartDots3, component: SkillsManager },

@@ -24,7 +24,7 @@ export default function ProjectCard({ project, onOpen }) {
           </span>
         )}
         {project.description && (
-          <p className="mt-3 text-sm flex-1 line-clamp-4">{project.description}</p>
+          <p className="mt-3 text-sm flex-1 line-clamp-4 text-justify hyphens-auto">{project.description}</p>
         )}
 
         <div className="flex items-center gap-3 mt-4">

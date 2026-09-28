@@ -52,7 +52,7 @@ export default function ServiceCard({ service }) {
           )}
           <h3 className="text-lg font-semibold text-secondary">{service.title}</h3>
         </div>
-        <p className="mt-3 text-sm text-text/70 flex-1 whitespace-pre-line">{service.description}</p>
+        <p className="mt-3 text-sm text-text/70 flex-1 whitespace-pre-line text-justify hyphens-auto">{service.description}</p>
       </div>
     </motion.article>
   )
