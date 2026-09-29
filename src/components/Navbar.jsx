@@ -9,7 +9,7 @@ const links = [
   { id: 'geomatique', label: 'Géomatique' },
   { id: 'experience', label: 'Expériences' },
   { id: 'projects', label: 'Projets' },
-  { id: 'services', label: 'Services' },
+  { id: 'services', label: 'Mes services' },
   { id: 'contact', label: 'Contact' },
 ]
 
